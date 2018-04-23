@@ -1,0 +1,65 @@
+---
+title: "EDA LAB1"
+author: "Bruna Barbosa"
+output:
+  html_notebook:
+    toc: yes
+    toc_float: yes
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(here)
+theme_set(theme_bw())
+```
+
+
+
+```{r}
+episodesHouseOfCards = read_csv(here("data/series_from_imdb.csv"), 
+                    progress = FALSE,
+                    col_types = cols(.default = col_double(), 
+                                     series_name = col_character(), 
+                                     episode = col_character(), 
+                                     url = col_character(),
+                                     season = col_character())) %>% 
+    filter(series_name == "House of Cards") 
+```
+
+
+## As series
+
+Analisaremos os episódios da falecida série House of Cards e da série Game of Thrones. 
+
+## Quantas avaliações temos por episódio? 
+
+```{r}
+episodes %>% 
+    ggplot(aes(x = season, y = user_votes)) +
+    geom_violin() + 
+    geom_jitter(width = .07) 
+```
+
+
+```{r}
+episodes %>% 
+    ggplot(aes(x = season_ep, y = user_votes))  + 
+    geom_line() + 
+    facet_wrap(~ season)
+               
+```
+
+## Um maior numero de avaliações indica maior qualidade por episodio?
+
+## Qualidade da serie no geral
+
+
+
+
+
+
+
