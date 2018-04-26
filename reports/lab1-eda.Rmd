@@ -30,36 +30,83 @@ episodesHouseOfCards = read_csv(here("data/series_from_imdb.csv"),
     filter(series_name == "House of Cards") 
 ```
 
+Analisaremos os episódios da série House of Cards e da série Game of Thrones. 
 
-## As series
+## House of Cards
 
-Analisaremos os episódios da falecida série House of Cards e da série Game of Thrones. 
-
-## Quantas avaliações temos por episódio? 
+### Quantas avaliações temos por episódio? 
 
 ```{r}
-episodes %>% 
-    ggplot(aes(x = season, y = user_votes)) +
+episodesHouseOfCards %>% 
+    ggplot(aes(x = season, y = user_votes, color = season)) +
     geom_violin() + 
     geom_jitter(width = .07) 
 ```
 
-
 ```{r}
-episodes %>% 
-    ggplot(aes(x = season_ep, y = user_votes))  + 
+episodesHouseOfCards %>% 
+    ggplot(aes(x = season_ep, y = user_votes, color = season))  + 
     geom_line() + 
     facet_wrap(~ season)
                
 ```
 
-## Um maior numero de avaliações indica maior qualidade por episodio?
 
-## Qualidade da serie no geral
+O numero de de avaliações sofreu uma leve queda, apenas o que destoa da tendencia sao os episodios season premiere e season finale.
+
+O declinio de avaliacoes pode ter sido causado por um numero menor de assinantes do Netflix assistindo a serie. O serviço nao revela dados de audiencia, divulga apenas o numero total de assinantes. 
+
+### As avaliações são boas? 
+
+```{r}
+episodesHouseOfCards %>% 
+    ggplot(aes(x = season, y = user_rating, color = season)) +
+    geom_violin() + 
+    geom_jitter(width = .07) 
+```
 
 
+### A qualidade da serie vem crescendo? 
+
+```{r}
+episodesHouseOfCards %>% 
+  ggplot(aes(x = season_ep, y = user_rating, color = season)) + 
+  geom_line() + 
+  geom_point() +
+  facet_wrap(~ season)
+```
 
 
+```{r}
+episodesHouseOfCards %>% 
+    ggplot(aes(x = season, y = user_rating, color = season)) + 
+    geom_boxplot(width = .5, outlier.color = NA) +   
+    geom_jitter(width = .1, size = 2, alpha = .5, color = "red")
+```
+
+### Um maior numero de avaliações indica maior qualidade por episodio?
+
+```{r}
+
+```
+
+### Os fas da serie vem crescendo?
+
+```{r}
+
+```
 
 
+## Game of Thrones
+
+```{r}
+episodesGameOfThrones = read_csv(here("data/series_from_imdb.csv"), 
+                    progress = FALSE,
+                    col_types = cols(.default = col_double(), 
+                                     series_name = col_character(), 
+                                     episode = col_character(), 
+                                     url = col_character(),
+                                     season = col_character())) %>% 
+    filter(series_name == "Game of Thrones") 
+```
 
