@@ -2,11 +2,11 @@
 title: "EDA LAB1"
 author: "Bruna Barbosa"
 output:
-  html_notebook:
-    toc: yes
-    toc_float: yes
   html_document:
     df_print: paged
+    toc: yes
+    toc_float: yes
+  html_notebook:
     toc: yes
     toc_float: yes
 ---
@@ -30,11 +30,11 @@ episodesHouseOfCards = read_csv(here("data/series_from_imdb.csv"),
     filter(series_name == "House of Cards") 
 ```
 
-Analisaremos os episódios da série House of Cards e da série Game of Thrones. 
+Analisaremos os episodios da serie House of Cards e da serie Game of Thrones. 
 
 ## House of Cards
 
-### Quantas avaliações temos por episódio? 
+### Quantas avaliacoes temos por episodio? 
 
 ```{r}
 episodesHouseOfCards %>% 
@@ -52,11 +52,11 @@ episodesHouseOfCards %>%
 ```
 
 
-O numero de de avaliações sofreu uma leve queda, apenas o que destoa da tendencia sao os episodios season premiere e season finale.
+O numero de de avaliacoes sofreu uma leve queda, apenas o que destoa da tendencia sao os episodios season premiere e season finale.
 
-O declinio de avaliacoes pode ter sido causado por um numero menor de assinantes do Netflix assistindo a serie. O serviço nao revela dados de audiencia, divulga apenas o numero total de assinantes. 
+O declinio de avaliacoes pode ter sido causado por um numero menor de assinantes do Netflix assistindo a serie. O servico nao revela dados de audiencia, divulga apenas o numero total de assinantes. 
 
-### As avaliações são boas? 
+### As avaliacoes sao boas? 
 
 ```{r}
 episodesHouseOfCards %>% 
@@ -64,6 +64,8 @@ episodesHouseOfCards %>%
     geom_violin() + 
     geom_jitter(width = .07) 
 ```
+
+A serie possui uma qualidade boa e regular, com a maioria dos usuarios avaliando os episodios acima de 8.
 
 
 ### A qualidade da serie vem crescendo? 
@@ -84,7 +86,11 @@ episodesHouseOfCards %>%
     geom_jitter(width = .1, size = 2, alpha = .5, color = "red")
 ```
 
-### Um maior numero de avaliações indica maior qualidade por episodio?
+
+A qualidade vem mantendo seu patamar de avaliacao, com a maioria dos usuarios atribuindo notas acima de 8.
+
+
+### Um maior numero de avaliacoes indica maior qualidade por episodio?
 
 ```{r}
 ggplot(episodesHouseOfCards, aes(x=user_votes, y=user_rating)) +
@@ -101,11 +107,11 @@ episodesHouseOfCards %>%
 
 ```
 
-Alguns episodios de maior qualidade receberam um maior numero de avaliações, porem nem sempre isso ocorre.
+Alguns episodios de maior qualidade receberam um maior numero de avaliacoes, porem nem sempre isso ocorre.
 
 ### Os fas da serie vem crescendo?
 
-São considerados fãs usuarios que atribuiram a nota 10 ao seriado.
+Sao considerados fas usuarios que atribuiram a nota 10 ao seriado.
 
 ```{r}
 episodesHouseOfCards %>%
@@ -115,7 +121,7 @@ episodesHouseOfCards %>%
     facet_wrap(~ season)
 ```
 
-Não é possivel identificar uma tendencia no numero de fas deste seriado.
+Nao � possivel identificar uma tendencia no aumento ou declinio do numero de fas deste seriado.
 
 ## Game of Thrones
 
@@ -130,3 +136,102 @@ episodesGameOfThrones = read_csv(here("data/series_from_imdb.csv"),
     filter(series_name == "Game of Thrones") 
 ```
 
+### Quantas avaliacoes temos por episodio? 
+
+```{r}
+episodesGameOfThrones %>% 
+    ggplot(aes(x = season, y = user_votes, color = season)) +
+    geom_violin() + 
+    geom_jitter(width = .07) 
+```
+
+```{r}
+episodesGameOfThrones %>% 
+    ggplot(aes(x = season_ep, y = user_votes, color = season))  + 
+    geom_line() + 
+    facet_wrap(~ season)
+               
+```
+
+O seriado tem como tradicao apresentar grandes surpresas na historia do penultimo episodio de
+cada temporada, esses episodios apresentam um maior numero de avaliacoes em relacao
+ao resto dos episodios.
+
+### As avaliacoes sao boas? 
+
+```{r}
+episodesGameOfThrones %>% 
+    ggplot(aes(x = season, y = user_rating, color = season)) +
+    geom_violin() + 
+    geom_jitter(width = .07) 
+```
+
+A serie possui uma qualidade boa e regular, com a maioria dos usuarios avaliando os episodios acima de 8,5.
+
+Umas das series mais bem avaliadas do site IMDB.
+
+### A qualidade da serie vem crescendo? 
+
+```{r}
+episodesGameOfThrones %>% 
+  ggplot(aes(x = season_ep, y = user_rating, color = season)) + 
+  geom_line() + 
+  geom_point() +
+  facet_wrap(~ season)
+```
+ 
+ A qualidade � alta e constante. 
+ 
+ Diferentemente das outras series, o penultimo episodio de cada temporada � o mais bem 
+ avaliados na maioria dos casos.
+
+```{r}
+episodesGameOfThrones %>% 
+    ggplot(aes(x = season, y = user_rating, color = season)) + 
+    geom_boxplot(width = .5, outlier.color = NA) +   
+    geom_jitter(width = .1, size = 2, alpha = .5, color = "red")
+```
+
+
+A qualidade vem mantendo seu patamar de avaliacao, com a maioria dos usuarios atribuindo notas acima de 8,5.
+
+
+### Um maior numero de avaliacoes indica maior qualidade por episodio?
+
+```{r}
+ggplot(episodesGameOfThrones, aes(x=user_votes, y=user_rating)) +
+  geom_point(shape=1) + geom_smooth(method=lm , color="red", se=TRUE) # Add linear regression line 
+```
+
+```{r}
+episodesGameOfThrones %>% 
+    group_by(season) %>% 
+    summarise(correlacao_linear = cor(user_votes, user_rating, 
+                                      method = "pearson"), 
+              correlacao_kendall = cor(user_votes, user_rating, 
+                                       method = "kendall"))
+
+```
+
+Geralmente a qualidade e o numero de avaliacoes nao variam muito. Porem ha algumas excecoes,
+como o episidio battle of the bastards, que obteve um maior numero de avaliacoes.
+
+### Os fas da serie vem crescendo?
+
+Sao considerados fas usuarios que atribuiram a nota 10 ao seriado.
+
+```{r}
+episodesGameOfThrones %>%
+    ggplot(aes(x = season_ep, y = r10, color = season)) +
+    geom_line() +
+    scale_x_continuous(breaks = 1:12) +
+    facet_wrap(~ season)
+```
+
+Nao � possivel identificar uma tendencia no aumento ou declinio do numero de fas deste seriado. 
+A qualidade da serie vem se mostrando consistente.
+
+## Conclusao
+
+As duas series foram bem avaliadas, mantendo sua qualidade com o passar do tempo. 
+Sendo game of thrones um pouco melhor avaliada e mantendo sua base de fas constante.
