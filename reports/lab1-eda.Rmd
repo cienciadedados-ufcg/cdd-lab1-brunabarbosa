@@ -87,15 +87,35 @@ episodesHouseOfCards %>%
 ### Um maior numero de avaliações indica maior qualidade por episodio?
 
 ```{r}
+ggplot(episodesHouseOfCards, aes(x=user_votes, y=user_rating)) +
+  geom_point(shape=1) + geom_smooth(method=lm , color="red", se=TRUE) # Add linear regression line 
+```
+
+```{r}
+episodesHouseOfCards %>% 
+    group_by(season) %>% 
+    summarise(correlacao_linear = cor(user_votes, user_rating, 
+                                      method = "pearson"), 
+              correlacao_kendall = cor(user_votes, user_rating, 
+                                       method = "kendall"))
 
 ```
+
+Alguns episodios de maior qualidade receberam um maior numero de avaliações, porem nem sempre isso ocorre.
 
 ### Os fas da serie vem crescendo?
 
-```{r}
+São considerados fãs usuarios que atribuiram a nota 10 ao seriado.
 
+```{r}
+episodesHouseOfCards %>%
+    ggplot(aes(x = season_ep, y = r10, color = season)) +
+    geom_line() +
+    scale_x_continuous(breaks = 1:12) +
+    facet_wrap(~ season)
 ```
 
+Não é possivel identificar uma tendencia no numero de fas deste seriado.
 
 ## Game of Thrones
 
