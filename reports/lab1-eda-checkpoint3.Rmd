@@ -1,0 +1,40 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+## 1. Pessoas que assistem o seriado Game of Thrones gostam de episodios com morte de personagens?
+
+Ja é marca de Game of Thrones que muitos personagens importantes morrem durante o decorrer das temporadas.
+É normal que as pessoas assistindo se sintam com raiva apos a perda de um personagem com o qual laços foram
+criados. 
+
+O que os usuarios do IMDB acham disso? O sentimento de perda do personagem afeta na nota que o usuario avalia o episodio?
+
+```{r}
+
+
+```
+
+[https://deathtimeline.com/](https://deathtimeline.com/)
+
+## 2. A qualidade da serie House of Cards vem aumentando junto com o numero de assinantes do Netflix?
+
+O site de streaming Netflix vem ganhando cada vez mais assinantes mundialmente. O serviço tem como caracteristica uma maior promocao de conteudo proprio ao inves de conteudo criado por terceiros. 
+
+Nao sao divulgados dados de audiencia por serie, porem a cada trimestre sao divulgados o numero total de assinantes do servico.
+
+É possivel notar um aumento da qualidade da serie House of Cards, criada pelo proprio site, a medida que mais assinantes possuem o serviço?
+
+Olharemos para a serie House of Cards.
+
+```{r}
+
+
+```
+
+Nossa amostra de series nao é sufiente para determinar a qualidade do conteudo criado pelo Netflix. Porem no caso de House of
+Cards podemos notar ...
+
+[https://www.statista.com/statistics/250934/quarterly-number-of-netflix-streaming-subscribers-worldwide/](https://www.statista.com/statistics/250934/quarterly-number-of-netflix-streaming-subscribers-worldwide/) 
