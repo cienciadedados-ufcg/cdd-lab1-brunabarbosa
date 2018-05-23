@@ -1,0 +1,57 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(highcharter)
+library(here)
+theme_set(theme_bw())
+```
+
+Neste lab iremos analisar os dados da serie Game of Thrones.
+
+
+### A qualidade da serie é regular?
+```{r}
+
+episodesGameOfThrones = read_csv(here("data/series_from_imdb.csv"), 
+                    progress = FALSE,
+                    col_types = cols(.default = col_double(), 
+                                     series_name = col_character(), 
+                                     episode = col_character(), 
+                                     url = col_character(),
+                                     season = col_character())) %>% 
+    filter(series_name == "Game of Thrones") 
+
+
+data = read_csv(here("data/series_from_imdb.csv"), 
+                    progress = FALSE,
+                    col_types = cols(.default = col_double(), 
+                                     series_name = col_character(), 
+                                     episode = col_character(), 
+                                     url = col_character(),
+                                     season = col_character()))
+
+#MEDIAN USER_RATING
+#median(data$user_rating)
+#[1] 8
+```
+
+
+```{r}
+
+ p = hchart(episodesGameOfThrones, "scatter", hcaes(x = user_rating, y = user_votes, group = season))
+ p
+```
+
+
+Na grande maioria dos casos a serie mantem sua qualidade alta, com pontuacao em torno de 8,25 e 9,75. Superando a pontuacao mediana de todas as outras series, que é 8 pontos.
+
+Inclusive o numero de votos por episodio se mantem constante durante o passar do tempo, com apenas alguns episodios de qualidade quase perfeita (pontuacao 9,9) recebendo mais votos.
+
+
+
